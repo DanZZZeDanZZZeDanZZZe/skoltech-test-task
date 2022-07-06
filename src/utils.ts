@@ -1,9 +1,12 @@
 import {
+  SchemaArray,
+  SchemaBoolean,
   SchemaEnum,
   SchemaInteger,
   SchemaItem,
+  SchemaObject,
   SchemaString,
-  SchemaType
+  SchemaType,
 } from "./types"
 
 function hasOwnProperty<T extends string>(
@@ -30,4 +33,16 @@ export function isString(item: SchemaItem): item is SchemaString {
 
 export function isInteger(item: SchemaItem): item is SchemaInteger {
   return checkTypeProperty<SchemaInteger>(item, "integer")
+}
+
+export function isBoolean(item: SchemaItem): item is SchemaBoolean {
+  return checkTypeProperty<SchemaBoolean>(item, "boolean")
+}
+
+export function isObject(item: SchemaItem): item is SchemaObject {
+  return checkTypeProperty<SchemaObject>(item, "object")
+}
+
+export function isArray(item: SchemaItem): item is SchemaArray {
+  return checkTypeProperty<SchemaArray>(item, "array")
 }
