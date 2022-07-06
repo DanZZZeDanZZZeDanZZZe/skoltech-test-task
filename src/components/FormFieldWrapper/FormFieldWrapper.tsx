@@ -5,33 +5,43 @@ import { v4 as uuid } from "uuid"
 
 interface FormFieldWrapperProps {
   label?: string
+  isSelect?: boolean
   children: JSX.Element
 }
 
-interface Identificators {
+interface AdditionalProps {
   id: string
   labelid?: string
+  margin: "normal"
+  label?: string
 }
 
 export const FormFieldWrapper = ({
   label,
   children,
+  isSelect,
 }: FormFieldWrapperProps): JSX.Element => {
   const idRef = useRef(uuid())
 
-  const ids: Identificators = {
+  const additionalProps: AdditionalProps = {
+    label,
     id: idRef.current,
+    margin: "normal",
   }
 
   if (label) {
-    ids.labelid = `label-${idRef.current}`
+    additionalProps.labelid = `label-${idRef.current}`
   }
 
-  const element = cloneElement(children, ids)
-  console.log("label", label)
+  const element = cloneElement(children, additionalProps)
+
   return (
-    <FormControl fullWidth>
-      {label && <InputLabel id={ids.labelid}>{label}</InputLabel>}
+    <FormControl fullWidth sx={{ margin: "1rem" }}>
+      {label && (
+        <InputLabel id={additionalProps.labelid}>
+          {isSelect ? label : null}
+        </InputLabel>
+      )}
       {element}
     </FormControl>
   )
