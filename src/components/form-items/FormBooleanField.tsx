@@ -4,10 +4,10 @@ import { SchemaBoolean } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
 interface FormStringFieldProps extends Omit<SchemaBoolean, "type"> {
-  label: string
+  label?: string
 }
 
-export const FormNumberField = ({ label }: FormStringFieldProps): JSX.Element => {
+export const FormBooleanField = ({ label }: FormStringFieldProps): JSX.Element => {
   return (
     <FormFieldWrapper label={label}>
       <Checkbox />

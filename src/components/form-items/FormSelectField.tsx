@@ -25,7 +25,7 @@ export const FormSelectField = ({
   }
 
   return (
-    <FormFieldWrapper label={label}>
+    <FormFieldWrapper label={label} isSelect>
       <Select value={state} onChange={handleChange}>
         {items.map((value) => (
           <MenuItem value={value}>{value}</MenuItem>

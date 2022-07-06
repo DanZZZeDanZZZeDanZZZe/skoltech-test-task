@@ -4,7 +4,7 @@ import { SchemaInteger } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
 interface FormNumberFieldProps extends Omit<SchemaInteger, "type"> {
-  label: string
+  label?: string
 }
 
 export const FormNumberField = ({

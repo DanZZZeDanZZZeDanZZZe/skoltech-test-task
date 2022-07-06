@@ -4,10 +4,10 @@ import { SchemaString } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
 interface FormStringFieldProps extends Omit<SchemaString, "type"> {
-  label: string
+  label?: string
 }
 
-export const FormNumberField = ({
+export const FormStringField = ({
   label,
   minLength,
   maxLength,
