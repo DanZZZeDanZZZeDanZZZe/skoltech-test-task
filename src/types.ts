@@ -16,8 +16,8 @@ export interface SchemaBoolean extends SchemaTypeBase {
 
 export interface SchemaInteger extends SchemaTypeBase {
   type: "integer"
-  minLength: number
-  maxLength: number
+  minimum: number
+  maximum: number
 }
 
 export interface SchemaObject extends SchemaTypeBase {
