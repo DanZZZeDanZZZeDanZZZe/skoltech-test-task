@@ -7,6 +7,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { v4 as uuid } from "uuid"
 
 import { SchemaEnum } from "../../types"
+import { FormFieldWrapper } from "../FormFieldWrapper"
 
 interface FormSelectFieldProps {
   label?: string
@@ -17,9 +18,6 @@ export const FormSelectField = ({
   label,
   items,
 }: FormSelectFieldProps): JSX.Element => {
-  const idRef = useRef(uuid())
-  const fieldId = idRef.current
-  const labelId = label ? `label-${idRef.current}` : label
   const [state, setState] = useState("")
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -27,19 +25,12 @@ export const FormSelectField = ({
   }
 
   return (
-    <FormControl fullWidth>
-      {labelId && <InputLabel id={labelId}>{label}</InputLabel>}
-      <Select
-        labelId={labelId}
-        id={fieldId}
-        value={state}
-        label={label}
-        onChange={handleChange}
-      >
+    <FormFieldWrapper label={label}>
+      <Select value={state} onChange={handleChange}>
         {items.map((value) => (
           <MenuItem value={value}>{value}</MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </FormFieldWrapper>
   )
 }
