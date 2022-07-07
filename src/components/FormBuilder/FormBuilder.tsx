@@ -1,7 +1,13 @@
 // import { Box, Container } from "@mui/material"
 import { SchemaItem } from "../../types"
 import { isBoolean, isEnum, isInteger, isObject, isString } from "../../utils"
-import { FormBooleanField, FormNumberField, FormSelectField } from "../form-items"
+import {
+  FormBooleanField,
+  FormNumberField,
+  FormSelectField,
+  FormStringField,
+} from "../form-items"
+import { useForm, Controller, Control } from "react-hook-form"
 
 interface FormBuilderProps {
   schema: SchemaItem
@@ -9,41 +15,58 @@ interface FormBuilderProps {
 
 interface SchemaMapperProps extends FormBuilderProps {
   label?: string
+  control: Control
+  required?: boolean
 }
 
-const SchemaMapper = ({ schema, label }: SchemaMapperProps): JSX.Element => {
-  console.log(schema)
+const SchemaMapper = ({
+  schema,
+  label,
+  control,
+  required = false,
+}: SchemaMapperProps): JSX.Element => {
+  // console.log(schema)
   if (isEnum(schema)) {
     const props = {
-      items: schema.enum,
+      ...schema,
       label,
+      control,
     }
     return <FormSelectField {...props} />
   }
 
   if (isInteger(schema)) {
     const props = {
+      ...schema,
       label,
+      control,
+      required,
     }
     return <FormNumberField {...props} />
   }
 
   if (isBoolean(schema)) {
     const props = {
+      ...schema,
       label,
+      control,
     }
     return <FormBooleanField {...props} />
   }
 
   if (isString(schema)) {
     const props = {
+      ...schema,
       label,
+      control,
+      required,
     }
-    return <FormNumberField {...props} />
+    return <FormStringField {...props} />
   }
 
   if (isObject(schema)) {
     const items = Object.entries<SchemaItem>(schema.properties)
+    const { required } = schema
 
     return (
       <>
@@ -51,6 +74,8 @@ const SchemaMapper = ({ schema, label }: SchemaMapperProps): JSX.Element => {
           const props = {
             label: field,
             schema: value,
+            control,
+            required: required.includes(field),
           }
           return <SchemaMapper {...props} />
         })}
@@ -63,5 +88,18 @@ const SchemaMapper = ({ schema, label }: SchemaMapperProps): JSX.Element => {
 }
 
 export const FormBuilder = ({ schema }: FormBuilderProps): JSX.Element => {
-  return <SchemaMapper schema={schema} />
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+  console.log("errors", errors)
+  const onSubmit = (data: any) => console.log(data)
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <SchemaMapper schema={schema} control={control} />
+      <button>Submit</button>
+    </form>
+  )
 }
