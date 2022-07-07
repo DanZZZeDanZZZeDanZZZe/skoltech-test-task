@@ -1,6 +1,13 @@
 // import { Box, Container } from "@mui/material"
 import { SchemaItem } from "../../types"
-import { isBoolean, isEnum, isInteger, isObject, isString } from "../../utils"
+import {
+  isArray,
+  isBoolean,
+  isEnum,
+  isInteger,
+  isObject,
+  isString,
+} from "../../utils"
 import {
   FormBooleanField,
   FormNumberField,
@@ -8,6 +15,9 @@ import {
   FormStringField,
 } from "../form-items"
 import { useForm, Controller, Control } from "react-hook-form"
+import { Typography } from "@mui/material"
+import { useState } from "react"
+import { v4 as uuid } from "uuid"
 
 interface FormBuilderProps {
   schema: SchemaItem
@@ -25,6 +35,8 @@ const SchemaMapper = ({
   control,
   required = false,
 }: SchemaMapperProps): JSX.Element => {
+  const [arrayKeys, setArrayKeys] = useState<string[]>([])
+
   // console.log(schema)
   if (isEnum(schema)) {
     const props = {
@@ -79,6 +91,38 @@ const SchemaMapper = ({
           }
           return <SchemaMapper {...props} />
         })}
+      </>
+    )
+  }
+
+  if (isArray(schema)) {
+    const addItem = () => setArrayKeys([...arrayKeys, uuid()])
+
+    const deleteItem = () => {
+      setArrayKeys([...arrayKeys.slice(0, -1)])
+    }
+
+    return (
+      <>
+        {label && (
+          <Typography variant="body1" gutterBottom>
+            {label}
+          </Typography>
+        )}
+        {arrayKeys.map((key) => {
+          const props = {
+            schema: schema.items,
+            control,
+          }
+
+          return <SchemaMapper key={key} {...props} />
+        })}
+        <button type="button" onClick={addItem}>
+          Add
+        </button>
+        <button type="button" onClick={deleteItem}>
+          Delete
+        </button>
       </>
     )
   }
