@@ -87,7 +87,7 @@ const SchemaMapper = ({
             label: field,
             schema: value,
             control,
-            required: required.includes(field),
+            required: required && required.includes(field),
           }
           return <SchemaMapper {...props} />
         })}
