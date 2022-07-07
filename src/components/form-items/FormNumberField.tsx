@@ -1,20 +1,22 @@
 import { TextField } from "@mui/material"
+import { Control } from "react-hook-form"
 
-import { SchemaInteger } from "../../types"
+import { FormFieldProps, SchemaInteger } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
-interface FormNumberFieldProps extends Omit<SchemaInteger, "type"> {
-  label?: string
-}
+export const FormNumberField = (
+  props: FormFieldProps<SchemaInteger>
+): JSX.Element => {
+  const rules = {
+    required: props.required,
+  }
 
-export const FormNumberField = ({
-  label,
-  minimum,
-  maximum,
-}: FormNumberFieldProps): JSX.Element => {
   return (
-    <FormFieldWrapper label={label}>
-      <TextField inputProps={{ min: minimum, max: maximum }} type="number" />
+    <FormFieldWrapper {...props} rules={rules}>
+      <TextField
+        inputProps={{ min: props.minimum, max: props.maximum }}
+        type="number"
+      />
     </FormFieldWrapper>
   )
 }

@@ -1,15 +1,17 @@
 import { Checkbox } from "@mui/material"
 
-import { SchemaBoolean } from "../../types"
+import { FormFieldProps, SchemaBoolean } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
-interface FormStringFieldProps extends Omit<SchemaBoolean, "type"> {
-  label?: string
-}
+export const FormBooleanField = (
+  props: FormFieldProps<SchemaBoolean>
+): JSX.Element => {
+  const rules = {
+    required: props.required,
+  }
 
-export const FormBooleanField = ({ label }: FormStringFieldProps): JSX.Element => {
   return (
-    <FormFieldWrapper label={label}>
+    <FormFieldWrapper {...props} rules={rules}>
       <Checkbox />
     </FormFieldWrapper>
   )

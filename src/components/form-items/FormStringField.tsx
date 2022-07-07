@@ -1,19 +1,20 @@
 import { TextField } from "@mui/material"
+import { Control } from "react-hook-form"
 
-import { SchemaString } from "../../types"
+import { FormFieldProps, SchemaString } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
 
-interface FormStringFieldProps extends Omit<SchemaString, "type"> {
-  label?: string
-}
+export const FormStringField = (
+  props: FormFieldProps<SchemaString>
+): JSX.Element => {
+  console.log(props.required)
 
-export const FormStringField = ({
-  label,
-  minLength,
-  maxLength,
-}: FormStringFieldProps): JSX.Element => {
+  const rules = {
+    required: props.required,
+  }
+
   return (
-    <FormFieldWrapper label={label}>
+    <FormFieldWrapper {...props} rules={rules}>
       <TextField />
     </FormFieldWrapper>
   )

@@ -6,28 +6,25 @@ import FormControl from "@mui/material/FormControl"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { v4 as uuid } from "uuid"
 
-import { SchemaEnum } from "../../types"
+import { FormFieldProps, SchemaEnum } from "../../types"
 import { FormFieldWrapper } from "../FormFieldWrapper"
+import { Control } from "react-hook-form"
 
-interface FormSelectFieldProps {
-  label?: string
-  items: SchemaEnum["enum"]
-}
-
-export const FormSelectField = ({
-  label,
-  items,
-}: FormSelectFieldProps): JSX.Element => {
+export const FormSelectField = (props: FormFieldProps<SchemaEnum>): JSX.Element => {
   const [state, setState] = useState("")
 
   const handleChange = (event: SelectChangeEvent) => {
     setState(event.target.value)
   }
 
+  const rules = {
+    required: props.required,
+  }
+
   return (
-    <FormFieldWrapper label={label} isSelect>
+    <FormFieldWrapper {...props} isSelect rules={rules}>
       <Select value={state} onChange={handleChange}>
-        {items.map((value) => (
+        {props.enum.map((value) => (
           <MenuItem value={value}>{value}</MenuItem>
         ))}
       </Select>
