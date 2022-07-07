@@ -1,3 +1,5 @@
+import { Control, UseControllerProps } from "react-hook-form"
+
 export type SchemaTypeName = "string" | "integer" | "boolean" | "array" | "object"
 
 export interface SchemaTypeBase {
@@ -45,3 +47,21 @@ export type SchemaType =
   | SchemaArray
 
 export type SchemaItem = SchemaType | SchemaEnum
+
+export type FormFieldRules = UseControllerProps["rules"]
+
+export interface FormFieldBase {
+  label?: string
+  control: Control
+  required?: boolean
+}
+
+export type FormFieldProps<T extends SchemaTypeBase | SchemaEnum> = T & FormFieldBase
+
+export interface FormFieldWrapperProps {
+  label?: string
+  isSelect?: boolean
+  children: JSX.Element
+  rules?: FormFieldRules
+  control: Control
+}
