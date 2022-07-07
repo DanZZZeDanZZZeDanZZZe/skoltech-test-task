@@ -82,6 +82,11 @@ const SchemaMapper = ({
 
     return (
       <>
+        {label && (
+          <Typography variant="body1" gutterBottom>
+            {label}
+          </Typography>
+        )}
         {items.map(([field, value]) => {
           const props = {
             label: field,
